@@ -11,6 +11,7 @@ class GamePageProvider extends ChangeNotifier {
   List? questions;
   int _currentQestionCount = 0;
   int _correctAnswersCount = 0;
+  int get currentQuestionCount => _currentQestionCount;
 
   BuildContext context;
 

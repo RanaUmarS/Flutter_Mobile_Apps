@@ -12,6 +12,23 @@ class _HomePageState extends State<HomePage> {
   double? _deviceHeight, _deviceWidth;
   double _currentDifficultyLevel = 0;
   final List<String> _difficultyTexts = ['Easy', 'Medium', 'Hard'];
+  final Color _easyColor = Colors.greenAccent;
+  final Color _mediumColor = Colors.orangeAccent;
+  final Color _hardColor = Colors.redAccent;
+
+
+  Color get _currentColor {
+    switch (_currentDifficultyLevel.toInt()) {
+      case 0:
+        return _easyColor;
+      case 1:
+        return _mediumColor;
+      case 2:
+        return _hardColor;
+      default:
+        return _easyColor;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +40,15 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.symmetric(horizontal: _deviceWidth! * 0.10),
           child: Center(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [_appTitle(), _difficultySlider(), _startGameButton()],
+              children: [
+                _appTitle(),
+                SizedBox(height: _deviceHeight! * 0.05),
+                _difficultyCard(),
+                SizedBox(height: _deviceHeight! * 0.05),
+                _startGameButton()
+              ],
             ),
           ),
         ),
@@ -40,55 +62,74 @@ class _HomePageState extends State<HomePage> {
         const Text(
           "Frivia",
           style: TextStyle(
-            fontSize: 50,
+            fontSize: 60,
             color: Colors.white,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w800,
           ),
         ),
-        Text(
-          _difficultyTexts[_currentDifficultyLevel.toInt()],
+        const SizedBox(height: 10),
+        AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 200),
           style: TextStyle(
-            fontSize: 20,
-            color: Colors.redAccent,
-            fontWeight: FontWeight.w600,
+            fontSize: 25,
+            color: _currentColor,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'NataSans'
+          ),
+          child: Text(
+            _difficultyTexts[_currentDifficultyLevel.toInt()],
           ),
         ),
       ],
     );
   }
 
-  Widget _difficultySlider() {
-    return SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Colors.white,
-        inactiveTrackColor: Colors.white,
-        trackHeight: 4.0,
-        thumbColor: Colors.red,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),
-        overlayColor: Colors.red.withOpacity(0.1),
-        overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
-        tickMarkShape: const RoundSliderTickMarkShape(),
-        activeTickMarkColor: Colors.red,
-        inactiveTickMarkColor: Colors.redAccent,
-        valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-        valueIndicatorColor: Colors.red,
-        valueIndicatorTextStyle: const TextStyle(
-          color: Colors.white,
-          fontFamily: "NataSans",
-          fontWeight: FontWeight.w600,
+  Widget _difficultyCard() {
+    return Card(
+      color: Theme.of(context).cardColor,
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            const Text(
+              "Select Difficulty",
+              style: TextStyle(color: Colors.white70, fontSize: 18, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 15),
+            SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                activeTrackColor: _currentColor,
+                inactiveTrackColor: Colors.white24,
+                trackHeight: 4.0,
+                thumbColor: _currentColor,
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
+                overlayColor: _currentColor.withOpacity(0.2),
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 24.0),
+                activeTickMarkColor: _currentColor,
+                inactiveTickMarkColor: Colors.white30,
+                valueIndicatorColor: _currentColor,
+                valueIndicatorTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              child: Slider(
+                label: _difficultyTexts[_currentDifficultyLevel.toInt()],
+                min: 0,
+                max: 2,
+                divisions: 2,
+                value: _currentDifficultyLevel,
+                onChanged: (_value) {
+                  setState(() {
+                    _currentDifficultyLevel = _value;
+                  });
+                },
+              ),
+            ),
+          ],
         ),
-      ),
-      child: Slider(
-        label: "Difficulty: ${_currentDifficultyLevel.toInt()}",
-        min: 0,
-        max: 2,
-        divisions: 2,
-        value: _currentDifficultyLevel,
-        onChanged: (_value) {
-          setState(() {
-            _currentDifficultyLevel = _value;
-          });
-        },
       ),
     );
   }
@@ -102,24 +143,28 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext _context) {
               return GamePage(
                 difficultyLevel:
-                    _difficultyTexts[_currentDifficultyLevel.toInt()]
-                        .toLowerCase(),
+                _difficultyTexts[_currentDifficultyLevel.toInt()].toLowerCase(),
               );
             },
           ),
         );
       },
-      color: Colors.red,
+      color: _currentColor,
       minWidth: _deviceWidth! * 0.80,
-      height: _deviceHeight! * 0.10,
-      child: const Text(
-        "Start",
+      height: _deviceHeight! * 0.075,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Text(
+        "START GAME",
         style: TextStyle(
-          color: Colors.white,
-          fontSize: 25,
-          fontWeight: FontWeight.w800,
+          fontSize: 22,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 1.2,
         ),
       ),
     );
   }
 }
+
+

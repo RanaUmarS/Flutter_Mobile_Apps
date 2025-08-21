@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frivia/pages/game_page.dart';
 import 'package:frivia/pages/home_page.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom],
+  );
+      runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'NataSans',
         scaffoldBackgroundColor: const Color.fromRGBO(31,31,31,1.0),
-
+        cardColor: const Color.fromRGBO(45, 45, 45, 1.0),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: HomePage(),
