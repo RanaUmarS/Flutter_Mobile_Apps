@@ -1,0 +1,8 @@
+# Ignore Flutter generated folders in all projects
+**/build/
+**/.dart_tool/
+**/.idea/
+**/*.iml
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/hs_err_pid*
