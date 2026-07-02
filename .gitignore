@@ -1,9 +1,40 @@
-# Ignore Flutter generated folders in all projects
+# ============================
+# Flutter generated folders
+# ============================
 **/build/
 **/.dart_tool/
 **/.idea/
 **/*.iml
 **/.flutter-plugins
 **/.flutter-plugins-dependencies
+**/.packages
+**/.pub-cache/
+**/.pub/
+
+# ============================
+# Logs & crash reports
+# ============================
+**/*.log
 **/hs_err_pid*
+
+# ============================
+# Firebase (Don't upload)
+# ============================
+**/google-services.json
+**/GoogleService-Info.plist
+
+# ============================
+# Environment files
+# ============================
+**/.env
+
+# ============================
+# Archives
+# ============================
 *.zip
+
+# ============================
+# Operating System files
+# ============================
+.DS_Store
+Thumbs.db
